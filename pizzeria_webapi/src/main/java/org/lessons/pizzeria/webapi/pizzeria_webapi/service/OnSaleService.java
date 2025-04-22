@@ -49,4 +49,13 @@ public class OnSaleService {
     public OnSale update(OnSale formSale) {
         return saleRepository.save(formSale);
     }
+
+    // delete
+    public void deleteById(int id) {
+        saleRepository.deleteById(id);
+    }
+
+    public void delete(OnSale sale) {
+        deleteById(sale.getId());
+    }
 }

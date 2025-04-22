@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.lessons.pizzeria.webapi.pizzeria_webapi.model.OnSale;
 import org.lessons.pizzeria.webapi.pizzeria_webapi.model.Pizza;
-import org.lessons.pizzeria.webapi.pizzeria_webapi.repository.IngredientRepository;
-import org.lessons.pizzeria.webapi.pizzeria_webapi.repository.OnSaleRepository;
+import org.lessons.pizzeria.webapi.pizzeria_webapi.service.IngredientService;
+import org.lessons.pizzeria.webapi.pizzeria_webapi.service.OnSaleService;
 import org.lessons.pizzeria.webapi.pizzeria_webapi.service.PizzaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,10 +29,10 @@ public class PizzaController {
     private PizzaService pizzaService;
 
     @Autowired
-    private OnSaleRepository saleRepository;
+    private OnSaleService saleService;
 
     @Autowired
-    private IngredientRepository ingredientRepository;
+    private IngredientService ingredientService;
 
     @GetMapping
     public String index(Model model) {
@@ -63,7 +63,7 @@ public class PizzaController {
     @GetMapping("/create")
     public String create(Model model) {
         model.addAttribute("pizza", new Pizza());
-        model.addAttribute("ingredients", ingredientRepository.findAll());
+        model.addAttribute("ingredients", ingredientService.findAll());
         return "pizzas/create-edit";
     }
 
@@ -72,7 +72,7 @@ public class PizzaController {
 
         // controllo errori
         if (bindingResult.hasErrors()) {
-            model.addAttribute("ingredients", ingredientRepository.findAll());
+            model.addAttribute("ingredients", ingredientService.findAll());
             return "pizzas/create-edit";
         }
 
@@ -85,7 +85,7 @@ public class PizzaController {
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable int id, Model model) {
         model.addAttribute("pizza", pizzaService.getById(id));
-        model.addAttribute("ingredients", ingredientRepository.findAll());
+        model.addAttribute("ingredients", ingredientService.findAll());
         model.addAttribute("edit", true);
         return "pizzas/create-edit";
     }
@@ -96,7 +96,7 @@ public class PizzaController {
 
         // controllo errori
         if (bindingResult.hasErrors()) {
-            model.addAttribute("ingredients", ingredientRepository.findAll());
+            model.addAttribute("ingredients", ingredientService.findAll());
             return "pizzas/create-edit";
         }
 
@@ -111,7 +111,7 @@ public class PizzaController {
         Pizza pizza = pizzaService.getById(id);
 
         for (OnSale saleToDelete : pizza.getSales()) {
-            saleRepository.delete(saleToDelete);
+            saleService.delete(saleToDelete);
         }
 
         pizzaService.delete(pizza);
@@ -126,5 +126,4 @@ public class PizzaController {
         model.addAttribute("sale", sale);
         return "sales/create-edit";
     }
-
 }

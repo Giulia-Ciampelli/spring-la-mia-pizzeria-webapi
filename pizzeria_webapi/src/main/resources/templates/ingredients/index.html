@@ -15,6 +15,22 @@
         <div class="row justify-content-center mx-0">
             <div class="d-flex py-4 justify-content-evenly">
 
+                <!-- sezione ricerca per nome -->
+                <div class="d-flex flex-column mb-3">
+                    <form th:action="@{/ingredients/search-by-name}" class="d-flex" method="get">
+                        <input type="text" class="form-control mx-3" id="name-search" name="name"
+                            placeholder="Search by name...">
+                        <input type="submit" class="btn btn-secondary" value="Search">
+                    </form>
+
+                    <!-- messaggio se non ci sono ingredienti trovati -->
+                    <div class="d-flex my-5 justify-content-center align-content-center">
+                        <h1 th:if="${ingredients.isEmpty()}">
+                            Sorry! No ingredients found
+                        </h1>
+                    </div>
+                </div>
+
                 <!-- bottone verso create -->
                 <div class="mb-3">
                     <a th:href="@{/ingredients/create}" class="btn back-basil cheese">

@@ -9,7 +9,6 @@ import org.lessons.pizzeria.webapi.pizzeria_webapi.model.Pizza;
 import org.lessons.pizzeria.webapi.pizzeria_webapi.repository.OnSaleRepository;
 import org.lessons.pizzeria.webapi.pizzeria_webapi.repository.PizzaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -27,7 +26,7 @@ public class PizzaService {
     }
 
     // show
-    public Pizza getById(int id) throws IdNotFoundException {
+    public Pizza getById(int id) {
         Optional<Pizza> pizzaAttempt = pizzaRepository.findById(id);
 
         if (pizzaAttempt.isEmpty()) {
@@ -39,7 +38,7 @@ public class PizzaService {
 
     // ricerche personalizzate
     public List<Pizza> findByName(String name) {
-        return pizzaRepository.findAll(Sort.by("name"));
+        return pizzaRepository.findByNameContainingIgnoreCase(name);
     }
 
     // create
@@ -53,7 +52,7 @@ public class PizzaService {
     }
 
     // delete
-    public void deleteById(int id) throws IdNotFoundException {
+    public void deleteById(int id) {
 
         Pizza pizza = getById(id);
 
