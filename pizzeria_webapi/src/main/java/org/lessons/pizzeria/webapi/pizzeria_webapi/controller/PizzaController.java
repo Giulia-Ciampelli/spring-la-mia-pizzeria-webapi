@@ -2,11 +2,12 @@ package org.lessons.pizzeria.webapi.pizzeria_webapi.controller;
 
 import java.util.List;
 
+import org.lessons.pizzeria.webapi.pizzeria_webapi.exception.PizzaNotFoundException;
 import org.lessons.pizzeria.webapi.pizzeria_webapi.model.OnSale;
 import org.lessons.pizzeria.webapi.pizzeria_webapi.model.Pizza;
 import org.lessons.pizzeria.webapi.pizzeria_webapi.repository.IngredientRepository;
 import org.lessons.pizzeria.webapi.pizzeria_webapi.repository.OnSaleRepository;
-import org.lessons.pizzeria.webapi.pizzeria_webapi.repository.PizzaRepository;
+import org.lessons.pizzeria.webapi.pizzeria_webapi.service.PizzaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,7 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class PizzaController {
 
     @Autowired
-    private PizzaRepository pizzaRepository;
+    private PizzaService pizzaService;
 
     @Autowired
     private OnSaleRepository saleRepository;
@@ -36,14 +37,14 @@ public class PizzaController {
 
     @GetMapping
     public String index(Model model) {
-        List<Pizza> pizzas = pizzaRepository.findAll();
+        List<Pizza> pizzas = pizzaService.findAll();
         model.addAttribute("pizzas", pizzas);
         return "pizzas/index";
     }
 
     @GetMapping("/{id}")
-    public String show(@PathVariable("id") int id, Model model) {
-        Pizza pizza = pizzaRepository.findById(id).get();
+    public String show(@PathVariable("id") int id, Model model) throws PizzaNotFoundException {
+        Pizza pizza = pizzaService.getById(id);
         model.addAttribute("pizza", pizza);
         model.addAttribute("sales", pizza.getSales());
         return "pizzas/show";
@@ -52,7 +53,7 @@ public class PizzaController {
     // #region ricerche personalizzate
     @GetMapping("/search-by-name")
     public String searchByName(@RequestParam(name = "name") String name, Model model) {
-        List<Pizza> pizzas = pizzaRepository.findByNameContainingIgnoreCase(name);
+        List<Pizza> pizzas = pizzaService.findByName(name);
         model.addAttribute("pizzas", pizzas);
         return "pizzas/index";
     }
@@ -77,14 +78,14 @@ public class PizzaController {
         }
 
         // salvataggio con la repository
-        pizzaRepository.save(formPizza);
+        pizzaService.create(formPizza);
         return "redirect:/pizzas";
     }
 
     // update
     @GetMapping("/edit/{id}")
-    public String edit(@PathVariable int id, Model model) {
-        model.addAttribute("pizza", pizzaRepository.findById(id).get());
+    public String edit(@PathVariable int id, Model model) throws PizzaNotFoundException {
+        model.addAttribute("pizza", pizzaService.getById(id));
         model.addAttribute("ingredients", ingredientRepository.findAll());
         model.addAttribute("edit", true);
         return "pizzas/create-edit";
@@ -101,28 +102,28 @@ public class PizzaController {
         }
 
         // salvataggio con la repository
-        pizzaRepository.save(formPizza);
+        pizzaService.update(formPizza);
         return "redirect:/pizzas";
     }
 
     // delete
     @PostMapping("delete/{id}")
-    public String delete(@PathVariable int id) {
-        Pizza pizza = pizzaRepository.findById(id).get();
+    public String delete(@PathVariable int id) throws PizzaNotFoundException {
+        Pizza pizza = pizzaService.getById(id);
 
         for (OnSale saleToDelete : pizza.getSales()) {
             saleRepository.delete(saleToDelete);
         }
 
-        pizzaRepository.delete(pizza);
+        pizzaService.delete(pizza);
         return "redirect:/pizzas";
     }
 
     // metodo delle offerte
     @GetMapping("/{id}/sale")
-    public String onSale(@PathVariable int id, Model model) {
+    public String onSale(@PathVariable int id, Model model) throws PizzaNotFoundException {
         OnSale sale = new OnSale();
-        sale.setPizza(pizzaRepository.findById(id).get());
+        sale.setPizza(pizzaService.getById(id));
         model.addAttribute("sale", sale);
         return "sales/create-edit";
     }
