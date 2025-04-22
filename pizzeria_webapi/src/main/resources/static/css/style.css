@@ -1,0 +1,57 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --dough: #DEB887;
+    --sauce: #C0392B;
+    --cheese: #ffebda;
+    --basil: #556B2F;
+    --charcoal: #2C2C2C;
+}
+
+body {
+    background-color: var(--dough) !important;
+}
+
+.back-dough {
+    background-color: var(--dough) !important;
+}
+
+.back-sauce {
+    background-color: var(--sauce) !important;
+}
+
+.back-cheese {
+    background-color: var(--cheese) !important;
+}
+
+.back-basil {
+    background-color: var(--basil) !important;
+}
+
+.back-charcoal {
+    background-color: var(--charcoal) !important;
+}
+
+.dough {
+    color: var(--dough) !important;
+}
+
+.sauce {
+    color: var(--sauce) !important;
+}
+
+.cheese {
+    color: var(--cheese) !important;
+}
+
+.basil {
+    color: var(--basil) !important;
+}
+
+.charcoal {
+    color: var(--charcoal) !important;
+}

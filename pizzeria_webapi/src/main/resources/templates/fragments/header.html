@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Header fragment</title>
+</head>
+<body>
+    <header class="py-4 back-sauce" th:fragment="header(content)">
+        <h1 class="text-center" th:text="${content}">
+        </h1>
+    </header>
+</body>
+</html>

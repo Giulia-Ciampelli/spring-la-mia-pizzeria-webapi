@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <div th:replace="~{fragments/style :: headTags}"></div>
+    <title th:text="${edit} ? 'Edit ' + ${pizza.name} : 'New pizza'"></title>
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+    <div th:replace="~{fragments/header :: header(${edit} ? 'Edit ' + ${pizza.name} : 'Add a new pizza')}"></div>
+    
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+    <main class="container flex-grow-1">
+        <div class="row">
+            <div class="col-8">
+                <form id="pizza-form" th:action="${edit} ? @{/pizzas/edit/{id}(id=${pizza.id})} : @{/pizzas/create}" method="post" th:object="${pizza}">
+                    
+                    <!-- nome -->
+                    <div class="mb-3">
+                        <label for="name" class="form-label">
+                            Name:
+                        </label>
+                        <input type="text" class="form-control" id="name" th:field="*{name}" th:errorClass="is-invalid">
+
+                        <!-- segnalazione errore -->
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}">
+                            <ul>
+                                <li th:each="error : ${#fields.errors('name')}" th:text="${error}"></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- ingredienti -->
+                    <div class="mb-3">
+                        <div class="form-check single-ingredient" th:each="ingredient : ${ingredients}">
+                            <input type="checkbox" th:field="${pizza.ingredients}" th:value="${ingredient.id}" th:id="|ingredient-${ingredient.id}|">
+                            <label th:for="|ingredient-${ingredient.id}|" class="form-check-label" th:text="${ingredient.name}">
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- descrizione -->
+                    <div class="mb-3">
+                        <label for="description" class="form-label">
+                            Description:
+                        </label>
+                        <input type="text" class="form-control" id="description" th:field="*{description}" th:errorClass="is-invalid">
+                        
+                        <!-- segnalazione errore -->
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('description')}">
+                            <ul>
+                                <li th:each="error : ${#fields.errors('description')}" th:text="${error}"></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- url immagine -->
+                    <div class="mb-3">
+                        <label for="img-url" class="form-label">
+                            Image URL:
+                        </label>
+                        <input type="text" class="form-control" id="img-url" th:field="*{url}" th:errorClass="is-invalid">
+                        
+                        <!-- segnalazione errore -->
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('url')}">
+                            <ul>
+                                <li th:each="error : ${#fields.errors('url')}" th:text="${error}"></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- prezzo -->
+                    <div class="mb-3">
+                        <label for="price" class="form-label">
+                            Price:
+                        </label>
+                        <input type="text" class="form-control" id="price" th:field="*{price}" th:errorClass="is-invalid">
+                        
+                        <!-- segnalazione errore -->
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('price')}">
+                            <ul>
+                                <li th:each="error : ${#fields.errors('price')}" th:text="${error}"></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- bottoni di invio o reset -->
+                    <div class="mb-3 d-flex justify-content-between">
+                        <input type="submit" class="btn back-basil cheese" value="Save">
+                        <input type="reset" class="btn btn-warning" value="Reset form">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+    
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+    <div th:replace="~{fragments/style :: scripts}"></div>
+</body>
+
+</html>

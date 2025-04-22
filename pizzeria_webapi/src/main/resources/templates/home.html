@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <div th:replace="~{fragments/style :: headTags}"></div>
+    <title>Home</title>
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+    <div th:replace="~{fragments/header :: header('Boolean Pizzeria')}"></div>
+
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+    <main class="container flex-grow-1">
+        <div class="row">
+            <div class="col">
+                <h2 class="my-4">
+                    Welcome to the Admin Panel
+                </h2>
+                <h3 class="my-4">
+                    This is your central hub for managing everything related to your pizzeria’s menu. Here, you can:
+                </h3>
+                <p class="fs-5 my-4">
+                    🍕 View All Pizzas – See a complete list of pizzas currently on the menu. <br>
+                    ➕ Add New Pizzas – Create delicious new pizza options with custom ingredients and prices. <br>
+                    ✏️ Edit Pizzas – Update descriptions, adjust prices, or tweak ingredients anytime. <br>
+                    🗑️ Delete Pizzas – Remove outdated or discontinued pizzas from the menu. <br>
+                    🆕 New Feature – You can now add special offers.
+                </p>
+                <h3 class="my-4">
+                    Easily keep your menu fresh and exciting with just a few clicks.
+                </h3>
+            </div>
+        </div>
+    </main>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+    <div th:replace="~{fragments/style :: scripts}"></div>
+</body>
+
+</html>

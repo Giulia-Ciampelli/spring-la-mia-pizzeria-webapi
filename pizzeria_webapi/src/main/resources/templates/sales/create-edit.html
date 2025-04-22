@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <div th:replace="~{fragments/style :: headTags}"></div>
+    <title>New sale</title>
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+    <div th:replace="~{fragments/header :: header('Add a new sale')}"></div>
+    
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+    <main class="container flex-grow-1">
+        <div class="row">
+            <div class="col-8">
+                <form id="sales-form" th:action="${edit} ? @{/sales/edit/{id}(id=${sale.id})} : @{/sales/create}" method="post" th:object="${sale}">
+                    
+                    <!-- collegamento alla pizza -->
+                    <input type="hidden" th:field="*{pizza}" id="linked-pizza">
+
+                    <!-- titolo -->
+                    <div class="mb-3">
+                        <label for="title" class="form-label">
+                            Title:
+                        </label>
+                        <input type="text" class="form-control" id="title" th:field="*{title}" th:errorClass="is-invalid">
+
+                        <!-- segnalazione errore -->
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('title')}">
+                            <ul>
+                                <li th:each="error : ${#fields.errors('title')}" th:text="${error}"></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- data inizio -->
+                    <div class="mb-3">
+                        <label for="startDate" class="form-label">
+                            Start date:
+                        </label>
+                        <input type="datetime-local" class="form-control" id="startDate" th:field="*{startDate}" th:errorClass="is-invalid">
+                        
+                        <!-- segnalazione errore -->
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('startDate')}">
+                            <ul>
+                                <li th:each="error : ${#fields.errors('startDate')}" th:text="${error}"></li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- data fine -->
+                    <div class="mb-3">
+                        <label for="finishDate" class="form-label">
+                            Finish date:
+                        </label>
+                        <input type="datetime-local" class="form-control" id="finishDate" th:field="*{finishDate}" th:errorClass="is-invalid">
+                        
+                        <!-- segnalazione errore -->
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('finishDate')}">
+                            <ul>
+                                <li th:each="error : ${#fields.errors('finishDate')}" th:text="${error}"></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- bottoni di invio o reset -->
+                    <div class="mb-3 d-flex justify-content-between">
+                        <input type="submit" class="btn back-basil cheese" value="Save">
+                        <input type="reset" class="btn btn-warning" value="Reset form">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+    
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+    <div th:replace="~{fragments/style :: scripts}"></div>
+</body>
+
+</html>

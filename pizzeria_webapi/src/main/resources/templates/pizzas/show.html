@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="~{fragments/style :: headTags}"></div>
+    <title th:text="${pizza.name}"></title>
+</head>
+<body>
+    <div th:replace="~{fragments/header :: header('Pizza ' + ${pizza.name})}"></div>
+    
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+    <div class="row justify-content-center mx-0 mb-3">
+        <div class="col-8" th:object="${pizza}">
+            <div class="card align-items-center px-4 back-cheese">
+                <p class="card-title fw-bold fs-3 text-decoration-none">
+                    [[*{name}]]
+                </p>
+                <img class="img-fluid" th:src="*{url}" th:alt="*{name}">
+                <p class="card-text mt-3">
+                    <strong>Description: </strong>[[*{description}]]
+                </p>
+                <p class="card-text my-3">
+                    <strong>Price: </strong>[[*{price}]]€
+                </p>
+                <div class="card align-items-center px-4 mb-3 back-basil" th:object="${sale}" th:if="${pizza.getSales().size() > 0}">
+                    <p class="card-title fw-bold fs-3 text-decoration-none cheese">
+                        Active sales:
+                    </p>
+                    <div th:each="sale : ${sales}">
+                        <p class="card-text my-3 cheese">
+                            <strong>Title: </strong>[[${sale.title}]]
+                        </p>
+                        <p class="card-text my-3 cheese">
+                            <strong>Start date: </strong>[[${sale.startDate}]]
+                        </p>
+                        <p class="card-text my-3 cheese">
+                            <strong>Finish date: </strong>[[${sale.finishDate}]]
+                        </p>
+                        <hr class="border-2 charcoal">
+                        <div class="mb-3">
+                            <a th:href="@{/sales/edit/{id}(id=${sale.id})}" class="btn back-sauce cheese">
+                                Update
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card align-items-center px-4 mb-3 back-sauce" th:unless="${pizza.getSales().size() > 0}">
+                    <p class="card-title fw-bold fs-3 text-decoration-none">
+                        No active sales at the moment
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+    <div th:replace="~{fragments/style :: scripts}"></div>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:fragment="headTags">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- link bootstrap -->
+        <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}">
+
+        <!-- link css personalizzato -->
+        <link th:rel="stylesheet" th:href="@{/css/style.css}">
+
+        <!-- link tab icon -->
+        <link rel="shortcut icon" th:href="@{/imgs/pizza-slice-solid.svg}" type="image/x-icon">
+    </th:block>
+</head>
+<body>
+    <div th:fragment="scripts">
+
+        <!-- link script bootstrap -->
+        <script th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js}"></script>
+    </div>
+</body>
+</html>
