@@ -2,6 +2,8 @@ package org.lessons.pizzeria.webapi.pizzeria_webapi.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -15,7 +17,7 @@ import jakarta.validation.constraints.Size;
 @Entity
 @Table(name = "ingredients")
 public class Ingredient {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -23,8 +25,9 @@ public class Ingredient {
     @NotBlank(message = "The name cannot be empty.")
     @Size(min = 3, message = "The name must be at least 3 characters long.")
     private String name;
-    
+
     @ManyToMany(mappedBy = "ingredients", fetch = FetchType.EAGER)
+    @JsonBackReference
     private List<Pizza> pizzas;
 
     // #region getter e setter

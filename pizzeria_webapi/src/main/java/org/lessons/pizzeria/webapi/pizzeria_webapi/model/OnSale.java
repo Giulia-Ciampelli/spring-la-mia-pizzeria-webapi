@@ -2,6 +2,8 @@ package org.lessons.pizzeria.webapi.pizzeria_webapi.model;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -34,6 +36,7 @@ public class OnSale {
 
     @ManyToOne
     @JoinColumn(name = "pizza_id", nullable = false)
+    @JsonBackReference
     private Pizza pizza;
 
     // #region gettere e setter

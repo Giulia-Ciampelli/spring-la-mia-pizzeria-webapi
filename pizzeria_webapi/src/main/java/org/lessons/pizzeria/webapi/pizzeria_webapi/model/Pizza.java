@@ -2,6 +2,8 @@ package org.lessons.pizzeria.webapi.pizzeria_webapi.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -44,6 +46,7 @@ public class Pizza {
 
     // RICORDA: metti fetchType eager prima per evitare di sclerare di nuovo
     @OneToMany(mappedBy = "pizza", fetch = FetchType.EAGER)
+    @JsonManagedReference
     private List<OnSale> sales;
 
     @ManyToMany
