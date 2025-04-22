@@ -2,7 +2,7 @@ package org.lessons.pizzeria.webapi.pizzeria_webapi.controller;
 
 
 import org.lessons.pizzeria.webapi.pizzeria_webapi.model.OnSale;
-import org.lessons.pizzeria.webapi.pizzeria_webapi.repository.OnSaleRepository;
+import org.lessons.pizzeria.webapi.pizzeria_webapi.service.OnSaleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class OnSaleController {
     
     @Autowired
-    private OnSaleRepository repository;
+    private OnSaleService saleService;
 
     // sezione create
     @PostMapping("/create")
@@ -29,14 +29,14 @@ public class OnSaleController {
         if (bindingResult.hasErrors()) {
             return "sales/create-edit";
         }
-        repository.save(formSale);
+        saleService.create(formSale);
         return "redirect:/pizzas/" + formSale.getPizza().getId();
     }
     
     // sezione edit
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable int id, Model model) {
-        model.addAttribute("sale", repository.findById(id).get());
+        model.addAttribute("sale", saleService.getById(id));
         model.addAttribute("edit", true);
         return "sales/create-edit";
     }
@@ -46,7 +46,7 @@ public class OnSaleController {
         if (bindingResult.hasErrors()) {
             return "sales/create-edit";
         }
-        repository.save(formSale);
+        saleService.update(formSale);
         return "redirect:/pizzas/" + formSale.getPizza().getId();
     }
 }

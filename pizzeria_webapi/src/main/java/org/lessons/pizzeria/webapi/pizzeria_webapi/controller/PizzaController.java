@@ -2,7 +2,6 @@ package org.lessons.pizzeria.webapi.pizzeria_webapi.controller;
 
 import java.util.List;
 
-import org.lessons.pizzeria.webapi.pizzeria_webapi.exception.PizzaNotFoundException;
 import org.lessons.pizzeria.webapi.pizzeria_webapi.model.OnSale;
 import org.lessons.pizzeria.webapi.pizzeria_webapi.model.Pizza;
 import org.lessons.pizzeria.webapi.pizzeria_webapi.repository.IngredientRepository;
@@ -43,7 +42,7 @@ public class PizzaController {
     }
 
     @GetMapping("/{id}")
-    public String show(@PathVariable("id") int id, Model model) throws PizzaNotFoundException {
+    public String show(@PathVariable("id") int id, Model model) {
         Pizza pizza = pizzaService.getById(id);
         model.addAttribute("pizza", pizza);
         model.addAttribute("sales", pizza.getSales());
@@ -84,7 +83,7 @@ public class PizzaController {
 
     // update
     @GetMapping("/edit/{id}")
-    public String edit(@PathVariable int id, Model model) throws PizzaNotFoundException {
+    public String edit(@PathVariable int id, Model model) {
         model.addAttribute("pizza", pizzaService.getById(id));
         model.addAttribute("ingredients", ingredientRepository.findAll());
         model.addAttribute("edit", true);
@@ -108,7 +107,7 @@ public class PizzaController {
 
     // delete
     @PostMapping("delete/{id}")
-    public String delete(@PathVariable int id) throws PizzaNotFoundException {
+    public String delete(@PathVariable int id) {
         Pizza pizza = pizzaService.getById(id);
 
         for (OnSale saleToDelete : pizza.getSales()) {
@@ -121,7 +120,7 @@ public class PizzaController {
 
     // metodo delle offerte
     @GetMapping("/{id}/sale")
-    public String onSale(@PathVariable int id, Model model) throws PizzaNotFoundException {
+    public String onSale(@PathVariable int id, Model model) {
         OnSale sale = new OnSale();
         sale.setPizza(pizzaService.getById(id));
         model.addAttribute("sale", sale);

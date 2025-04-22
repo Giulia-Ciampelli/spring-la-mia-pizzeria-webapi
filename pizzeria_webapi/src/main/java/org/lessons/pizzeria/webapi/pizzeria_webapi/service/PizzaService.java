@@ -3,7 +3,7 @@ package org.lessons.pizzeria.webapi.pizzeria_webapi.service;
 import java.util.List;
 import java.util.Optional;
 
-import org.lessons.pizzeria.webapi.pizzeria_webapi.exception.PizzaNotFoundException;
+import org.lessons.pizzeria.webapi.pizzeria_webapi.exception.IdNotFoundException;
 import org.lessons.pizzeria.webapi.pizzeria_webapi.model.OnSale;
 import org.lessons.pizzeria.webapi.pizzeria_webapi.model.Pizza;
 import org.lessons.pizzeria.webapi.pizzeria_webapi.repository.OnSaleRepository;
@@ -27,11 +27,11 @@ public class PizzaService {
     }
 
     // show
-    public Pizza getById(int id) throws PizzaNotFoundException {
+    public Pizza getById(int id) throws IdNotFoundException {
         Optional<Pizza> pizzaAttempt = pizzaRepository.findById(id);
 
         if (pizzaAttempt.isEmpty()) {
-            throw new PizzaNotFoundException("404: Pizza with id " + id + " not found.");
+            throw new IdNotFoundException("404: Pizza with id " + id + " not found.");
         }
 
         return pizzaAttempt.get();
@@ -53,7 +53,7 @@ public class PizzaService {
     }
 
     // delete
-    public void deleteById(int id) throws PizzaNotFoundException {
+    public void deleteById(int id) throws IdNotFoundException {
 
         Pizza pizza = getById(id);
 
