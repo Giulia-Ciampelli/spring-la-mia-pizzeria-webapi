@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/pizzas")
 public class PizzaRestController {
@@ -45,13 +47,13 @@ public class PizzaRestController {
 
     // create
     @PostMapping
-    public ResponseEntity<Pizza> store(@RequestBody Pizza pizza) {
+    public ResponseEntity<Pizza> store(@Valid @RequestBody Pizza pizza) {
         return new ResponseEntity<Pizza>(pizzaService.create(pizza), HttpStatusCode.valueOf(201));
     }
 
     // update
     @PutMapping("/{id}")
-    public ResponseEntity<Pizza> update(@PathVariable int id, @RequestBody Pizza pizza) {
+    public ResponseEntity<Pizza> update(@PathVariable int id, @Valid @RequestBody Pizza pizza) {
         Optional<Pizza> pizzaAttempt = pizzaService.findById(id);
 
         if (pizzaAttempt.isEmpty()) {
@@ -64,7 +66,7 @@ public class PizzaRestController {
 
     // delete
     @DeleteMapping("/{id}")
-    public ResponseEntity<Pizza> delete(@PathVariable int id) {
+    public ResponseEntity<Pizza> delete(@Valid @PathVariable int id) {
         Optional<Pizza> pizzaAttempt = pizzaService.findById(id);
 
         if (pizzaAttempt.isEmpty()) {
